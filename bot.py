@@ -19,7 +19,9 @@ dp = Dispatcher(bot, storage=storage)
 
 # Подключение к Google Sheets
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("google_credentials.json", scope)
+import json
+json_creds = json.loads(os.getenv("GSPREAD_CREDENTIALS"))
+creds = ServiceAccountCredentials.from_json_keyfile_dict(json_creds, scope)
 client = gspread.authorize(creds)
 sheet = client.open("MindDropBotData").sheet1
 
